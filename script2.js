@@ -1,101 +1,102 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const timerDisplay = document.getElementById("timer");
-  const scoreDisplay = document.getElementById("score");
-  let timerInterval;
+  const cronometroDisplay = document.getElementById("cronometro");
+  const puntuacionDisplay = document.getElementById("puntuacion");
+  let intervaloCronometro;
 
-  // Función para iniciar el temporizador
-  function startTimer() {
-    let seconds = 0;
-    timerInterval = setInterval(function() {
-      seconds++;
-      const hours = Math.floor(seconds / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-      timerDisplay.textContent = 
-        (hours < 10 ? "0" : "") + hours + ":" +
-        (minutes < 10 ? "0" : "") + minutes + ":" +
+  // Función para iniciar el cronómetro
+  function iniciarCronometro() {
+    let segundos = 0;
+    intervaloCronometro = setInterval(function() {
+      segundos++;
+      const horas = Math.floor(segundos / 3600);
+      const minutos = Math.floor((segundos % 3600) / 60);
+      const secs = segundos % 60;
+      cronometroDisplay.textContent = 
+        (horas < 10 ? "0" : "") + horas + ":" +
+        (minutos < 10 ? "0" : "") + minutos + ":" +
         (secs < 10 ? "0" : "") + secs;
     }, 1000);
   }
 
-  // Función para detener el temporizador
-  function stopTimer() {
-    clearInterval(timerInterval);
+  // Función para detener el cronómetro
+  function detenerCronometro() {
+    clearInterval(intervaloCronometro);
   }
 
-  // Función para reiniciar el temporizador
-  function resetTimer() {
-    clearInterval(timerInterval);
-    timerDisplay.textContent = "00:00:00";
-    startTimer();
+  // Función para reiniciar el cronómetro y la puntuación
+  function reiniciarCronometroYPuntuacion() {
+    clearInterval(intervaloCronometro);
+    cronometroDisplay.textContent = "00:00:00";
+    actualizarPuntuacion(0); // Reinicia la puntuación a 0
+    iniciarCronometro();
   }
 
   // Función para obtener la puntuación del sessionStorage
-  function getScore() {
-    return sessionStorage.getItem("score") || "0";
+  function obtenerPuntuacion() {
+    return sessionStorage.getItem("puntuacion") || "0";
   }
 
   // Función para actualizar la puntuación en el sessionStorage
-  function updateScore(newScore) {
-    sessionStorage.setItem("score", newScore);
-    scoreDisplay.textContent = newScore;
+  function actualizarPuntuacion(nuevaPuntuacion) {
+    sessionStorage.setItem("puntuacion", nuevaPuntuacion);
+    puntuacionDisplay.textContent = nuevaPuntuacion;
   }
 
-  // Función para iniciar el temporizador cuando se carga la página
-  startTimer();
+  // Función para iniciar el cronómetro cuando se carga la página
+  iniciarCronometro();
 
   // Manejador para el botón "Reiniciar"
   document.getElementById("reiniciar").addEventListener("click", function() {
-    resetTimer();
+    reiniciarCronometroYPuntuacion(); // Llama a la función que reinicia el cronómetro y la puntuación
   });
 
-  const figures = document.querySelectorAll("#table2 img");
-  const dropZones = document.querySelectorAll(".toni");
+  const figuras = document.querySelectorAll("#tabla2 img");
+  const zonasDeSoltar = document.querySelectorAll(".espacio-vacio");
 
-  let draggedFigure = null;
+  let figuraArrastrada = null;
 
-  figures.forEach(figure => {
+  figuras.forEach(figure => {
     figure.addEventListener("dragstart", function() {
-      draggedFigure = figure;
+      figuraArrastrada = figure;
     });
 
     figure.addEventListener("dragend", function() {
-      draggedFigure = null;
+      figuraArrastrada = null;
     });
   });
 
-  dropZones.forEach(dropZone => {
-    dropZone.addEventListener("dragover", function(event) {
+  zonasDeSoltar.forEach(zonaDeSoltar => {
+    zonaDeSoltar.addEventListener("dragover", function(event) {
       event.preventDefault();
     });
 
-    dropZone.addEventListener("drop", function() {
-      if (draggedFigure) {
+    zonaDeSoltar.addEventListener("drop", function() {
+      if (figuraArrastrada) {
         this.innerHTML = "";
-        this.appendChild(draggedFigure.cloneNode(true));
+        this.appendChild(figuraArrastrada.cloneNode(true));
       }
     });
   });
 
   // Manejador para el botón "Verificar"
   document.getElementById("verificar").addEventListener("click", function() {
-    const dropZoneContent = document.querySelector(".toni img");
-    if (dropZoneContent) {
-      const imageName = dropZoneContent.getAttribute("src");
+    const contenidoZonaDeSoltar = document.querySelector(".espacio-vacio img");
+    if (contenidoZonaDeSoltar) {
+      const nombreImagen = contenidoZonaDeSoltar.getAttribute("src");
       const regex = /([^\/]+)\.png$/;
-      const match = regex.exec(imageName);
-      if (match && match[1] === "triangulo") {
+      const coincidencia = regex.exec(nombreImagen);
+      if (coincidencia && coincidencia[1] === "triangulo") {
         // Aumentar la puntuación en 10
-        const currentScore = parseInt(getScore());
-        const newScore = currentScore + 10;
-        updateScore(newScore);
+        const puntuacionActual = parseInt(obtenerPuntuacion());
+        const nuevaPuntuacion = puntuacionActual + 10;
+        actualizarPuntuacion(nuevaPuntuacion);
         // Redirigir a la página "primero.html"
         window.location.href = "tercero.html";
       } else {
         // Restar 5 a la puntuación
-        const currentScore = parseInt(getScore());
-        const newScore = Math.max(currentScore - 5, 0);
-        updateScore(newScore);
+        const puntuacionActual = parseInt(obtenerPuntuacion());
+        const nuevaPuntuacion = Math.max(puntuacionActual - 5, 0);
+        actualizarPuntuacion(nuevaPuntuacion);
         alert("Incorrecto.");
       }
     } else {
@@ -104,5 +105,5 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // Actualizar la puntuación al cargar la página
-  scoreDisplay.textContent = getScore();
+  puntuacionDisplay.textContent = obtenerPuntuacion();
 });
