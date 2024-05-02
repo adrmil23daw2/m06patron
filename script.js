@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
-  var timerDisplay = document.getElementById("timer");
-  var scoreDisplay = document.getElementById("score");
-  var timerInterval;
+  const timerDisplay = document.getElementById("timer");
+  const scoreDisplay = document.getElementById("score");
+  let timerInterval;
 
   // Función para iniciar el temporizador
   function startTimer() {
-    var seconds = 0;
+    let seconds = 0;
     timerInterval = setInterval(function() {
       seconds++;
-      var hours = Math.floor(seconds / 3600);
-      var minutes = Math.floor((seconds % 3600) / 60);
-      var secs = seconds % 60;
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
       timerDisplay.textContent = 
         (hours < 10 ? "0" : "") + hours + ":" +
         (minutes < 10 ? "0" : "") + minutes + ":" +

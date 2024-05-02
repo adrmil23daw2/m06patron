@@ -10,3 +10,13 @@ td{
     width: 100px;
     height: 100px;
 }
+h3{
+    font-family: "Briem Hand", cursive;}
+h2{
+    font-family: "Briem Hand", cursive;
+}
+p{
+    font-family: "Jersey 15", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
