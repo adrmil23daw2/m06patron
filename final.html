@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultado Final</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #resultado {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Resultado Final</h1>
+  <div id="resultado">Resultado: <span id="resultadoValor"></span></div>
+  <div id="cronometro">Tiempo: <span id="tiempoValor">00:00:00</span></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const dbName = "puntuacionDB";
+      const dbVersion = 1;
+      const dbRequest = window.indexedDB.open(dbName, dbVersion);
+
+      dbRequest.onsuccess = event => {
+        const db = event.target.result;
+        const transaction = db.transaction(["puntuacion"], "readwrite");
+        const objectStore = transaction.objectStore("puntuacion");
+        const getRequest = objectStore.get(1);
+
+        getRequest.onsuccess = event => {
+          const data = event.target.result;
+          document.getElementById("resultadoValor").textContent = data.puntuacion;
+          const horas = Math.floor(data.tiempo / 3600);
+          const minutos = Math.floor((data.tiempo % 3600) / 60);
+          const secs = data.tiempo % 60;
+          document.getElementById("tiempoValor").textContent = 
+            (horas < 10 ? "0" : "") + horas + ":" +
+            (minutos < 10 ? "0" : "") + minutos + ":" +
+            (secs < 10 ? "0" : "") + secs;
+        };
+      };
+    });
+  </script>
+</body>
+</html>

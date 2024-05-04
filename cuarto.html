@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador de Tiempo y Tablas</title>
+<link rel="stylesheet" type="text/css" href="css.css">
+<script src="script4.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+<h3>Marcador</h3>
+<p id="puntuacion">0</p>
+
+<h3>Sigue el patrón</h3>
+<table id="tabla1">
+  <tr>
+    <td><img id="c2" src="src/circulo.png"></td>
+    <td><img id="c2" src="src/cuadrado.png"></td>
+    <td><img id="c2" src="src/triangulo.png"></td>
+    <td class="espacio-vacio"></td>
+  </tr>
+</table>
+<h2>Arrastra la figura que creas que continúa el patrón</h2>
+<table id="tabla2">
+  <tr>
+    <td><img id="c2" src="src/circulo.png" alt="" draggable="true"></td>
+    <td><img id="c2" src="src/cuadrado.png" alt="" draggable="true"></td>
+    <td><img id="c2" src="src/triangulo.png" alt="" draggable="true"></td>
+  </tr>
+</table>
+
+<button id="verificar">Verificar</button>
+<button id="reiniciar">Reiniciar</button>
+
+<h3>Tiempo</h3>
+<p id="cronometro">00:00:00</p>
+</body>
+</html>
