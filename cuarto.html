@@ -1,40 +1,67 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contador de Tiempo y Tablas</title>
-<link rel="stylesheet" type="text/css" href="css.css">
-<script src="script4.js" type="module"></script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Tiempo y Tablas</title>
+    <link rel="stylesheet" type="text/css" href="css.css">
+    <script src="script4.js" type="module"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 </head>
+
 <body>
 
-<h3>Marcador</h3>
-<p id="puntuacion">0</p>
+    <h3>Marcador</h3>
+    <p id="puntuacion">0</p>
 
-<h3>Sigue el patrón</h3>
-<table id="tabla1">
-  <tr>
-    <td><img id="c2" src="src/circulo.png"></td>
-    <td><img id="c2" src="src/cuadrado.png"></td>
-    <td><img id="c2" src="src/triangulo.png"></td>
-    <td class="espacio-vacio"></td>
-  </tr>
-</table>
-<h2>Arrastra la figura que creas que continúa el patrón</h2>
-<table id="tabla2">
-  <tr>
-    <td><img id="c2" src="src/circulo.png" alt="" draggable="true"></td>
-    <td><img id="c2" src="src/cuadrado.png" alt="" draggable="true"></td>
-    <td><img id="c2" src="src/triangulo.png" alt="" draggable="true"></td>
-  </tr>
-</table>
+    <h3>Sigue el patrón</h3>
+    <table id="tabla1">
+        <tr>
+        </tr>
+    </table>
+    <h2>Arrastra la figura que creas que continúa el patrón</h2>
+    <table id="tabla2">
+        <tr>
+        </tr>
+    </table>
 
-<button id="verificar">Verificar</button>
-<button id="reiniciar">Reiniciar</button>
+    <button id="verificar">Verificar</button>
+    <button id="reiniciar">Reiniciar</button>
 
-<h3>Tiempo</h3>
-<p id="cronometro">00:00:00</p>
+    <h3>Tiempo</h3>
+    <p id="cronometro">00:00:00</p>
 </body>
+<script>
+    let arrayImg = ["src/circulo.png", "src/cuadrado.png", "src/triangulo.png"]; //Fila
+    let tabla = document.querySelector("#tabla1 tr");
+    while (arrayImg.length > 0) {
+        console.log(arrayImg);
+        let td = document.createElement("td");
+        tabla.appendChild(td);
+        let img = document.createElement("img");
+        img.id = "c2";
+        img.src = arrayImg[0];
+        arrayImg.shift();
+        td.appendChild(img);
+    }
+    let a = document.createElement("td");
+    a.classList.add("espacio-vacio");
+    tabla.appendChild(a);
+
+    let arrayImg2 = ["src/triangulo.png", "src/cuadrado.png", "src/circulo.png"]; //Pila
+    let tabla2 = document.querySelector("#tabla2 tr");
+
+    while (arrayImg2.length > 0) {
+        console.log(arrayImg2);
+        let td = document.createElement("td");
+        tabla2.appendChild(td);
+        let img = document.createElement("img");
+        img.id = "c2";
+        img.src = arrayImg2[arrayImg2.length - 1];
+        img.draggable = "true";
+        arrayImg2.pop();
+        td.appendChild(img);
+    }
+</script>
 </html>
